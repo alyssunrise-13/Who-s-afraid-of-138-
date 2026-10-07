@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#a90012">
+    <title>ASOT 138 - INU</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --red: #a90012;
+            --deep-red: #79000d;
+            --paper: #fff8ed;
+            --paper-shadow: #ead9c8;
+            --ink: #4c302b;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 36px 18px;
+            display: grid;
+            place-items: center;
+            overflow-x: hidden;
+            background-color: #a90012;
+            background-image:
+                radial-gradient(ellipse at 14% 18%, #c5192b 0, transparent 28%),
+                radial-gradient(ellipse at 90% 84%, #7d000c 0, transparent 34%);
+            color: var(--paper);
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            width: min(100%, 760px);
+            text-align: center;
+        }
+
+        .floating-phrases {
+            position: fixed;
+            z-index: 0;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .floating-phrase {
+            position: absolute;
+            max-width: 230px;
+            color: #ffe5d2;
+            font-size: 16px;
+            font-style: italic;
+            line-height: 1.5;
+            opacity: 0.82;
+            animation: float 8s ease-in-out infinite alternate;
+            text-shadow: 0 2px 8px #61000b80;
+        }
+
+        .floating-phrase:nth-child(1) {
+            top: 13%;
+            left: 5%;
+        }
+
+        .floating-phrase:nth-child(2) {
+            top: 19%;
+            right: 5%;
+            animation-delay: -3s;
+        }
+
+        .floating-phrase:nth-child(3) {
+            right: 6%;
+            bottom: 13%;
+            animation-delay: -5s;
+        }
+
+        .floating-phrase:nth-child(4) {
+            bottom: 10%;
+            left: 5%;
+            animation-delay: -2s;
+        }
+
+        @keyframes float {
+            from { translate: 0 6px; }
+            to { translate: 0 -7px; }
+        }
+
+        .eyebrow {
+            margin: 0 0 12px;
+            color: #ffe3d2;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+        }
+
+        h1,
+        h2,
+        p {
+            overflow-wrap: anywhere;
+        }
+
+        h1 {
+            margin: 0 0 28px;
+            color: #fff8ed;
+            font-size: clamp(34px, 8vw, 58px);
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .lock-screen {
+            display: grid;
+            justify-items: center;
+            gap: 22px;
+        }
+
+        .protocol {
+            width: min(100%, 430px);
+            padding: 15px 18px;
+            border-top: 1px solid #ffd7bd80;
+            border-bottom: 1px solid #ffd7bd80;
+            color: #ffe8d9;
+            font-family: "Courier New", Courier, monospace;
+            text-align: center;
+        }
+
+        .protocol strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #fff5e8;
+            font-size: 14px;
+            letter-spacing: 0.18em;
+        }
+
+        .protocol p {
+            margin: 4px 0;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .lock-screen[hidden] {
+            display: none;
+        }
+
+        .envelope {
+            position: relative;
+            width: min(84vw, 390px);
+            height: 250px;
+            filter: drop-shadow(0 18px 20px #42000a70);
+        }
+
+        .envelope-letter {
+            position: absolute;
+            z-index: 1;
+            right: 9%;
+            bottom: 22%;
+            left: 9%;
+            height: 72%;
+            padding: 26px 20px;
+            background: var(--paper);
+            color: var(--ink);
+            box-shadow: 0 1px 8px #39000938;
+        }
+
+        .envelope-letter span {
+            display: block;
+            color: var(--deep-red);
+            font-size: 23px;
+            font-style: italic;
+        }
+
+        .envelope-letter p {
+            margin: 12px 0 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .envelope-back {
+            position: absolute;
+            z-index: 2;
+            inset: 15% 0 0;
+            border-radius: 5px;
+            background: #e7bfa1;
+        }
+
+        .envelope-front {
+            position: absolute;
+            z-index: 3;
+            inset: 15% 0 0;
+            border: 5px solid #f0c9a7;
+            border-radius: 5px;
+            background: #c47d58;
+            clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            z-index: 4;
+            inset: 15% 0 auto;
+            height: 56%;
+            background: #dfa983;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+        }
+
+        .seal {
+            position: absolute;
+            z-index: 5;
+            top: 56%;
+            left: 50%;
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            transform: translate(-50%, -50%);
+            border: 3px solid #f6d4b4;
+            border-radius: 50%;
+            background: var(--red);
+            color: #fff3df;
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            box-shadow: 0 2px 8px #54000a55;
+        }
+
+        #timeMessage {
+            max-width: 440px;
+            margin: 0;
+            color: #ffe9dc;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .letter {
+            display: none;
+            width: min(100%, 620px);
+            margin: 0 auto;
+            padding: clamp(24px, 6vw, 46px);
+            border: 1px solid #d9b99e;
+            background: var(--paper);
+            color: var(--ink);
+            text-align: left;
+            box-shadow: 0 18px 50px #41000970;
+            animation: unfold 700ms ease both;
+        }
+
+        @keyframes unfold {
+            from { opacity: 0; transform: translateY(18px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .letter .eyebrow {
+            color: var(--red);
+            text-align: center;
+        }
+
+        .letter h2 {
+            margin: 0;
+            color: var(--deep-red);
+            font-size: clamp(30px, 6vw, 42px);
+            font-weight: 400;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .intro,
+        .ending {
+            color: #684a3e;
+            font-size: 16px;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .notes {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin: 28px 0;
+        }
+
+        .note {
+            min-height: 112px;
+            padding: 15px 13px;
+            border: 1px solid #ddcbb4;
+            background: #fffdf8;
+            color: #593b36;
+            text-align: left;
+            box-shadow: 0 3px 7px #593b3614;
+            transition: transform 250ms ease, box-shadow 250ms ease;
+        }
+
+        .note:nth-child(2) {
+            background: #fff0e6;
+            transform: rotate(1deg);
+        }
+
+        .note:nth-child(3) {
+            background: #fff6dc;
+            transform: rotate(-1deg);
+        }
+
+        .note:hover,
+        .note:focus-visible,
+        .note[aria-expanded="true"] {
+            z-index: 1;
+            transform: translateY(-5px) rotate(0);
+            box-shadow: 0 9px 18px #593b3626;
+        }
+
+        .note button {
+            width: 100%;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: var(--red);
+            font: inherit;
+            font-size: 16px;
+            font-style: italic;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .note p {
+            margin: 12px 0 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .track-list {
+            margin: 28px 0;
+            padding: 12px 20px;
+            border-top: 1px solid #d7bda8;
+            border-bottom: 1px solid #d7bda8;
+            background: #fff3e6;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 13px;
+        }
+
+        .track {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 11px 0;
+            border-bottom: 1px dashed #d4bca8;
+        }
+
+        .track:last-child {
+            border-bottom: 0;
+        }
+
+        .track span:last-child {
+            color: var(--red);
+            white-space: nowrap;
+        }
+
+        .ending {
+            margin-bottom: 0;
+            color: var(--deep-red);
+            font-style: italic;
+        }
+
+        @media (max-width: 560px) {
+            body {
+                padding: 28px 14px;
+            }
+
+            .floating-phrase {
+                max-width: 145px;
+                font-size: 12px;
+            }
+
+            .floating-phrase:nth-child(2) {
+                top: 8%;
+            }
+
+            .floating-phrase:nth-child(3) {
+                display: none;
+            }
+
+            .envelope {
+                height: 215px;
+            }
+
+            .notes {
+                grid-template-columns: 1fr;
+            }
+
+            .note {
+                min-height: auto;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-phrases" aria-hidden="true">
+        <span class="floating-phrase">Desde que llegaste, algunos días tienen más luz.</span>
+        <span class="floating-phrase">Tu risa siempre encuentra el camino hasta mí.</span>
+        <span class="floating-phrase">Qué bonito coincidir contigo en este mundo enorme.</span>
+        <span class="floating-phrase">Hay personas que se vuelven hogar sin darse cuenta.</span>
+    </div>
+
+    <main class="page">
+        <p class="eyebrow">Transmisión especial · Canal 138</p>
+        <h1>Una señal para ti</h1>
+
+        <section class="lock-screen" id="lockScreen" aria-label="Carta cerrada">
+            <div class="protocol">
+                <strong>FRECUENCIA CERRADA</strong>
+                <p>PROTOCOLO ASOT-138 · MENSAJE PERSONAL</p>
+                <p>Esperando autorización del corazón...</p>
+            </div>
+            <div class="envelope" aria-hidden="true">
+                <div class="envelope-letter">
+                    <span>Para ti,</span>
+                    <p>Hay algo bonito que quiero contarte...</p>
+                </div>
+                <div class="envelope-back"></div>
+                <div class="envelope-front"></div>
+                <div class="envelope-flap"></div>
+                <div class="seal">&#9829;&#65038;</div>
+            </div>
+            <p id="timeMessage" aria-live="polite">Sincronizando con el reloj de esta historia...</p>
+        </section>
+
+        <section class="letter" id="secretData" aria-labelledby="letterTitle">
+            <p class="eyebrow">Lee estas pequeñas notas</p>
+            <h2 id="letterTitle">A State Of Trance</h2>
+            <p class="intro">No siempre encuentro las palabras perfectas, pero sí sé que hay personas que hacen más bonitos hasta los días más sencillos.</p>
+
+            <div class="notes">
+                <article class="note">
+                    <button type="button" aria-expanded="true">Lo que admiro</button>
+                    <p>Admiro tu perseverancia, tu lucha y la valentía con la que enfrentas cada día. Admiro lo trabajador y amoroso que eres, y cómo cuidas de tu familia.</p>
+                </article>
+                <article class="note">
+                    <button type="button" aria-expanded="true">Lo que recuerdo</button>
+                    <p>Recuerdo nuestras risas, los abrazos que me hacen sentir en casa, los momentos cálidos que compartimos y nuestras noches de pasión.</p>
+                </article>
+                <article class="note">
+                    <button type="button" aria-expanded="true">Lo que deseo</button>
+                    <p>Deseo que formemos una linda familia y que, en el futuro, construyamos juntos una vida próspera, uniendo nuestras habilidades y apoyándonos en cada paso.</p>
+                </article>
+            </div>
+
+            <p class="intro">Y también hay algo escondido aquí. ¿Pista? Busca "ensalada" en nuestro chat.</p>
+
+            <div class="track-list">
+                <div class="track"><span>01. [ T K Q W H Z T ]: D...</span> <span style="color:#fc6666;">[ ~01:14 ]</span></div>
+                <div class="track"><span>02. [ G L V F ]: I... </span> <span style="color:#fc6666;">[ ~01:17 ]</span></div>
+                <div class="track"><span>03. [ M L O I W ]: C... </span> <span style="color:#fc6666;">[ ~00:05 ]</span></div>
+                <div class="track"><span>04. [ X D Q U L V H ]: W... </span> <span style="color:#fc6666;">[ ~00:53 ]</span></div>
+                <div class="track"><span>05. [ G H M M V ] W... </span> <span style="color:#fc6666;">[ ~00:56 ]</span></div>
+            </div>
+
+            <p class="ending">Gracias por existir en mi mundo. Con mucho cariño. De tu Amoricot</p>
+        </section>
+    </main>
+
+    <script>
+        const HORA_OBJETIVO = 13.08;
+        const lockScreen = document.getElementById("lockScreen");
+        const secretData = document.getElementById("secretData");
+        const timeMessage = document.getElementById("timeMessage");
+
+        function mostrarCarta() {
+            lockScreen.hidden = true;
+            secretData.style.display = "block";
+        }
+
+        async function validarHoraServidor() {
+            try {
+                const respuesta = await fetch("https://worldtimeapi.org/api/timezone/America/Lima");
+                const datos = await respuesta.json();
+                const horaReal = new Date(datos.datetime).getHours();
+
+                if (horaReal >= HORA_OBJETIVO) {
+                    mostrarCarta();
+                } else {
+                    timeMessage.textContent = `> CANAL DISPONIBLE A LAS ${HORA_OBJETIVO}:00 HRS.`;
+                }
+            } catch (error) {
+                const horaLocal = new Date().getHours();
+
+                if (horaLocal >= HORA_OBJETIVO) {
+                    mostrarCarta();
+                } else {
+                    timeMessage.textContent = `> TRANSMISIÓN PROGRAMADA: ${HORA_OBJETIVO}:00 HRS. (HORA LOCAL)`;
+                }
+            }
+        }
+
+        document.querySelectorAll(".note button").forEach((boton) => {
+            boton.addEventListener("click", () => {
+                const nota = boton.closest(".note");
+                const texto = nota.querySelector("p");
+                const abierta = boton.getAttribute("aria-expanded") === "true";
+
+                boton.setAttribute("aria-expanded", String(!abierta));
+                texto.hidden = abierta;
+            });
+        });
+
+        validarHoraServidor();
+    </script>
+</body>
+</html>

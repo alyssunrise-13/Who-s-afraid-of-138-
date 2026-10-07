@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who's afraid of 138?</title>
+    <style>
+        body {
+            background-color: #0b0c10;
+            color: #c5c6c7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+        .card, .lock-screen {
+            padding: 40px 30px;
+            border-radius: 16px;
+            max-width: 380px;
+            width: 90%;
+        }
+        .card {
+            background: linear-gradient(145deg, #13151c, #0b0c10);
+            box-shadow: 0 10px 30px rgba(69, 162, 158, 0.15);
+            border: 1px solid rgba(69, 162, 158, 0.2);
+            display: none;
+        }
+        .lock-screen {
+            border: 1px dashed #ff4c4c;
+            background-color: #1a0505;
+            text-align: center;
+        }
+        h2 {
+            color: #66fcf1;
+            text-align: center;
+            letter-spacing: 3px;
+            font-size: 1.3rem;
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #888;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+        }
+        .track-list {
+            background-color: #050505;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #66fcf1;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+        .track {
+            display: flex;
+            justify-content: space-between;
+            margin: 12px 0;
+            border-bottom: 1px dashed #222;
+            padding-bottom: 6px;
+        }
+        .track:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .instruction {
+            font-size: 0.85rem;
+            text-align: center;
+            line-height: 1.6;
+            color: #999;
+        }
+        .highlight {
+            color: #ffffff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="lock-screen" id="lockScreen">
+        <h2 style="color: #ff4c4c;">FRECUENCIA CERRADA</h2>
+        <p class="instruction" style="margin-top: 20px;">Protocolo ASOT-138 en espera de autorización orbital.</p>
+        <p class="instruction" style="color: #00ffcc; font-family: monospace;" id="timeMessage">
+            Sincronizando con reloj satelital...
+        </p>
+    </div>
+
+    <div class="card" id="secretData">
+        <h2>Who's Afraid of 138?</h2>
+        <div class="subtitle">ENCRYPTED RECEPTOR LOG // 138</div>
+        
+        <p class="instruction">
+            Hay ecos de las 22:00 esperando respuesta.
+            Aplica el compás que dejamos pendiente.
+            Escucha con atención en cada segundo marcado.
+        </p>
+        
+        <div class="track-list">
+            <div class="track"><span>01. [ T K Q W H Z T ]</span> <span style="color:#66fcf1;">[ 00:54 ]</span></div>
+            <div class="track"><span>02. [ N L Z B J M ]</span> <span style="color:#66fcf1;">[ 01:15 ]</span></div>
+            <div class="track"><span>03. [ B O W O H ]</span> <span style="color:#66fcf1;">[ 01:02 ]</span></div>
+            <div class="track"><span>04. [ T X V O B ]</span> <span style="color:#66fcf1;">[ 00:48 ]</span></div>
+            <div class="track"><span>05. [ J Q B F Q A F ]</span> <span style="color:#66fcf1;">[ 02:10 ]</span></div>
+        </div>
+        
+        <p class="instruction">SYNTHESIS: <span class="highlight">Reconstruye el espectro vocal en orden descendente.</span></p>
+    </div>
+
+    <script>
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) || (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault();
+            }
+        });
+        const HORA_OBJETIVO = 19;
+
+        async function validarHoraServidor() {
+            const timeMsg = document.getElementById('timeMessage');
+            try {
+                const res = await fetch('https://worldtimeapi.org/api/timezone/America/Lima');
+                const data = await res.json();
+                const horaReal = new Date(data.datetime).getHours();
+
+                if (horaReal >= HORA_OBJETIVO) {
+                    document.getElementById('lockScreen').style.display = 'none';
+                    document.getElementById('secretData').style.display = 'block';
+                } else {
+                    timeMsg.innerText = "> CANAL DISPONIBLE A LAS " + HORA_OBJETIVO + ":00 HRS.";
+                }
+            } catch (err) {
+                const horaLocal = new Date().getHours();
+                if (horaLocal >= HORA_OBJETIVO) {
+                    document.getElementById('lockScreen').style.display = 'none';
+                    document.getElementById('secretData').style.display = 'block';
+                } else {
+                    timeMsg.innerText = "> TRANSMISIÓN PROGRAMADA: ??:00 HRS.";
+                }
+            }
+        }
+
+        validarHoraServidor();
+    </script>
+</body>
+</html>
